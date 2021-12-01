@@ -1,0 +1,18 @@
+body{
+    background-color: rgba(43, 39, 39, 0.712);
+}
+.forms{
+    display: flex;
+    justify-content: center;
+}
+.forms .formlogin{
+    width: 50%;
+    margin-top: 180px;
+}
+.forms .registro{
+    margin-left: 10px;
+}
+.forms .formRegister{
+    width: 50%;
+    margin-top: 180px;
+}
