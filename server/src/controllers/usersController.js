@@ -41,5 +41,27 @@ module.exports = {
             }else{
                 return {errors: errors.mapped()}
             }
-     } 
+     },
+     login: (req,res)=>{
+        let errors = validationResult(req)
+        if(errors.isEmpty()){
+            const {email, remember} = req.body
+        db.User.findOne({
+            where: {
+                email
+            }
+        }).then(usuario=> {
+            req.session.userLogin={
+                id: usuario.id,
+                name: usuario.name,
+                rolId : usuario.rolId,
+            }
+            if(remember){
+                res.cookie("remember", req.session.userLogin, {maxAge: 3000000*60})
+            }
+        }).catch(error => console.log(error))
+        }else{
+            return res.render('login',{errores:errors.mapped()})
+        }
+    }
 }

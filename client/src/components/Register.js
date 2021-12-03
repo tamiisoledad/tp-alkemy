@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
-/* import { useNavigate } from "react-router-dom"; */
 
 const Register = ()=> {
     const [state, setState] = React.useState({
@@ -9,18 +8,7 @@ const Register = ()=> {
         password: ''
       })
 
-   /* const apiCall = async () => {
-        try {
-            let response = await fetch('http://localhost:3001/users/create', {
-            method: "POST"
-            });
-            let result = await response.json();
-            console.log(response)
-            return result
-        } catch (error) {
-            console.log(error)
-        }
-    } */
+  
     function handleChange(evt) {
         let value = evt.target.value;
         setState({
@@ -32,10 +20,6 @@ const Register = ()=> {
 
     async function  HandleSubmit(e){
         e.preventDefault()
-    alert("Nombre: "+state.name)
-    alert("Email: "+state.email)
-    alert("Password: "+state.password)
-    
     try {
         let response = await fetch('http://localhost:3001/users/create', {
         method: "POST",
@@ -50,20 +34,19 @@ const Register = ()=> {
         });
         let result = await response.json();
         console.log(response)
-        /* let navigate = useNavigate();
-        navigate("/") */
-        return result
+        let form = document.querySelector(".formRegister")
+        form.submit()
+        return result 
         
     } catch (error) {
         console.log(error)
     }
     
     }
-
         return (
             <div className="forms">
-                <Form className="formRegister" onSubmit={HandleSubmit}>
-                    <Form.Group className="mb-3 text-light" controlId="formBasicEmail" >
+                <Form className="formRegister" onSubmit={HandleSubmit} action="/">
+                    <Form.Group className="mb-3 text-light" controlId="formBasicName" >
                         <Form.Label>Nombre</Form.Label>
                         <Form.Control type="text" placeholder="Introduzca su nombre" name="name" value={state.name} onChange={handleChange}/>
                     </Form.Group>
