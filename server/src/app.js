@@ -3,7 +3,7 @@ require("dotenv").config();
 var createError = require('http-errors');
 var cors = require("cors");
 var corsOptions = {
-  origin: "http://localhost:3001"
+  origin: "http://localhost:3000"
 };
 var express = require('express');
 var path = require('path');

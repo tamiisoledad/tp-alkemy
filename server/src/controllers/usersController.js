@@ -19,7 +19,7 @@ module.exports = {
                     if(confirm){
                         respuesta = {
                             meta: {
-                                status: 200,
+                                status: 201,
                                 total: confirm.length,
                                 url: 'users/create'
                             },
@@ -28,7 +28,7 @@ module.exports = {
                     }else{
                         respuesta = {
                             meta: {
-                                status: 200,
+                                status: 201,
                                 total: confirm.length,
                                 url: 'users/create'
                             },
@@ -36,7 +36,10 @@ module.exports = {
                         }
                     }
                     res.json(respuesta)
+                    
                 }).catch(error => res.send(error))
+            }else{
+                return {errors: errors.mapped()}
             }
      } 
 }

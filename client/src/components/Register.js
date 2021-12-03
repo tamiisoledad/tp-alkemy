@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
+/* import { useNavigate } from "react-router-dom"; */
 
 const Register = ()=> {
     const [state, setState] = React.useState({
@@ -29,31 +30,39 @@ const Register = ()=> {
     
     }
 
-    async function  handleSubmit(e){
+    async function  HandleSubmit(e){
         e.preventDefault()
     alert("Nombre: "+state.name)
     alert("Email: "+state.email)
     alert("Password: "+state.password)
+    
     try {
         let response = await fetch('http://localhost:3001/users/create', {
         method: "POST",
-        body: {
+        body: JSON.stringify({
             name: state.name,
             email: state.email,
             password: state.password
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
         }
         });
         let result = await response.json();
         console.log(response)
+        /* let navigate = useNavigate();
+        navigate("/") */
         return result
+        
     } catch (error) {
         console.log(error)
     }
+    
     }
 
         return (
             <div className="forms">
-                <Form className="formRegister" onSubmit={handleSubmit}>
+                <Form className="formRegister" onSubmit={HandleSubmit}>
                     <Form.Group className="mb-3 text-light" controlId="formBasicEmail" >
                         <Form.Label>Nombre</Form.Label>
                         <Form.Control type="text" placeholder="Introduzca su nombre" name="name" value={state.name} onChange={handleChange}/>
