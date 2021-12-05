@@ -6,5 +6,6 @@ var loginValidator = require("../validations/loginValidation");
 
 /* routes */
 router.post('/create', registerValidator, create);
-router.post('/login',loginValidator, login)
+router.post('/login',loginValidator, login);
+
 module.exports = router;

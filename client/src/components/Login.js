@@ -35,10 +35,8 @@ const Login = () => {
             });
             let result = await response.json();
             console.log(response)
-            
             navigate("/home")
-            
-            return result
+        return result
             
         } catch (error) {
             console.log(error)

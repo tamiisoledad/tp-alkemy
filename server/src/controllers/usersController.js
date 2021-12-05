@@ -13,7 +13,8 @@ module.exports = {
             db.User.create({
                 name: req.body.name,
                 email: req.body.email,
-                password: await bcryptjs.hash(req.body.password, 10)
+                password: await bcryptjs.hash(req.body.password, 10),
+                rolId: 1
                 }).then(confirm => {
                     let respuesta;
                     if(confirm){
@@ -49,8 +50,18 @@ module.exports = {
         db.User.findOne({
             where: {
                 email
-            }
+            },
+            include: ['rol']
         }).then(usuario=> {
+            let respuesta = {
+                meta: {
+                    status: 200,
+                    total: usuario.length,
+                    url: '/api/movie/:id'
+                },
+                data: usuario
+            }
+            res.json(respuesta);
             req.session.userLogin={
                 id: usuario.id,
                 name: usuario.name,
