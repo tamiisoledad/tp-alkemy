@@ -1,5 +1,9 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
+import {Link} from 'react-router-dom'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import {useNavigate} from 'react-router-dom';
 
 const Register = ()=> {
     const [state, setState] = React.useState({
@@ -17,6 +21,10 @@ const Register = ()=> {
         });
     
     }
+    let navigate = useNavigate();
+
+const MySwal = withReactContent(Swal)
+
 
     async function  HandleSubmit(e){
         e.preventDefault()
@@ -34,8 +42,17 @@ const Register = ()=> {
         });
         let result = await response.json();
         console.log(response)
-        let form = document.querySelector(".formRegister")
-        form.submit()
+        
+       MySwal.fire({
+            title: <p>Te has registrado con exito!!!</p>,
+            footer: 'Copyright 2021',
+            didOpen: () => {
+            MySwal.getConfirmButton()
+            }}).then(() => {
+            return navigate("/")
+            
+            }) 
+            
         return result 
         
     } catch (error) {
@@ -45,7 +62,8 @@ const Register = ()=> {
     }
         return (
             <div className="forms">
-                <Form className="formRegister" onSubmit={HandleSubmit} action="/">
+                <Form className="formRegister" onSubmit={HandleSubmit} >
+                
                     <Form.Group className="mb-3 text-light" controlId="formBasicName" >
                         <Form.Label>Nombre</Form.Label>
                         <Form.Control type="text" placeholder="Introduzca su nombre" name="name" value={state.name} onChange={handleChange}/>
@@ -59,9 +77,12 @@ const Register = ()=> {
                         <Form.Label>Contraseña</Form.Label>
                         <Form.Control type="password" placeholder="Introduzca una contraseña" name="password"value={state.password} onChange={handleChange}/>
                     </Form.Group>
+                    <div className="botones">
+                    <Link to="/" className="btn btn-success back"><i className="fas fa-arrow-left"></i></Link>
                     <Button  variant="primary" type="submit">
                         Registrarme
                     </Button>
+                    </div>
                 </Form>
             </div>
         );

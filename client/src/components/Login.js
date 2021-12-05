@@ -2,9 +2,10 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
-
+    let navigate = useNavigate();
     const [state, setState] = React.useState({
         email: "",
         password: '',
@@ -27,7 +28,6 @@ const Login = () => {
                 body: JSON.stringify({
                     email: state.email,
                     password: state.password,
-                    remember: state.remember,
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8'
@@ -35,10 +35,11 @@ const Login = () => {
             });
             let result = await response.json();
             console.log(response)
-            let form = document.querySelector(".formLogin")
-            form.submit()
+            
+            navigate("/home")
+            
             return result
-
+            
         } catch (error) {
             console.log(error)
         }
@@ -46,17 +47,17 @@ const Login = () => {
 
     return (
         <div className="forms">
-            <Form className="formlogin" onSubmit={HandleSubmit} action="/home">
+            <Form className="formlogin" onSubmit={HandleSubmit} >
                 <Form.Group className="mb-3 text-light" controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Introduzca su email" value={state.email} onChange={handleChange}/>
+                    <Form.Control type="email" placeholder="Introduzca su email" name="email" value={state.email} onChange={handleChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3 text-light" controlId="formBasicPassword">
                     <Form.Label>Contraseña</Form.Label>
-                    <Form.Control type="password" placeholder="Introduzca su contraseña" value={state.password} onChange={handleChange} />
+                    <Form.Control type="password" placeholder="Introduzca su contraseña" name="password" value={state.password}  onChange={handleChange} />
                 </Form.Group>
                 <Form.Group className="mb-3 text-light" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Recordarme" value={state.remember} onChange={handleChange}/>
+                    <Form.Check type="checkbox" label="Recordarme" name="remember" value={state.remember} onChange={handleChange}/>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Iniciar sesión

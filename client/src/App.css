@@ -16,3 +16,7 @@ body{
     width: 50%;
     margin-top: 180px;
 }
+.forms div.botones{
+    display: flex;
+    justify-content: space-between;
+}
