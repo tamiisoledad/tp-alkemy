@@ -2,13 +2,61 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const Home = () => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-  
+
+    const [state, setState] = useState({
+        quantity: "",
+        categoryId: ""
+      })
+
+    function handleChange(evt) {
+        let value = evt.target.value;
+        setState({
+          ...state,
+          [evt.target.name]: value
+        });
+    }
+    const MySwal = withReactContent(Swal)
+
+    async function  HandleSubmit(e){
+        e.preventDefault()
+    try {
+        let response = await fetch('http://localhost:3001/operations/create', {
+        method: "POST",
+        body: JSON.stringify({
+            quantity: state.quantity,
+            categoryId: state.categoryId
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+        });
+        let result = await response.json();
+        console.log(response)
+        
+       MySwal.fire({
+            title: <p>Operacion agregada exitosamente!!</p>,
+            didOpen: () => {
+            MySwal.getConfirmButton()
+            }}).then(()=>{
+                handleClose()
+            })
+            
+        return result 
+        
+    } catch (error) {
+        console.log(error)
+    }
+    
+    }
+    
     return (
         <div className="home">
             <h1>Bienvenido ....!</h1>
@@ -47,24 +95,19 @@ const Home = () => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+                <Form onSubmit={HandleSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicMonto">
                         <Form.Label>Monto</Form.Label>
-                        <Form.Control type="number" placeholder="Ingrese el monto" />
+                        <Form.Control type="number" placeholder="Ingrese el monto" name="quantity" onChange={handleChange}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicCategory">
-                        <Form.Select aria-label="Default select example">
+                        <Form.Select aria-label="Default select example" name="categoryId" onChange={handleChange}>
                             <option selected disabled>Abrir para seleccionar opción</option>
                             <option value="1">Ingreso</option>
                             <option value="2">Egreso</option>
                         </Form.Select>
                     </Form.Group>
-
-                    {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
-                    </Form.Group> */}
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
