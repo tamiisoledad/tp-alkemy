@@ -34,14 +34,15 @@ const Login = () => {
                 }
             });
             let result = await response.json();
-            console.log(response)
             navigate("/home")
+
         return result
             
         } catch (error) {
             console.log(error)
         }
     }
+    localStorage.setItem('user', state.email);
 
     return (
         <div className="forms">
