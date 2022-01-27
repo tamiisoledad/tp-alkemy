@@ -14,11 +14,16 @@ module.exports = (sequelize, DataTypes) => {
         as : 'category',
         foreignKey: "categoryId"
       })
+      Operation.belongsTo(models.User,{
+        as : 'user',
+        foreignKey: "userId"
+      })
     }
   };
   Operation.init({
     quantity: DataTypes.DECIMAL,
-    categoryId: DataTypes.INTEGER
+    categoryId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Operation',

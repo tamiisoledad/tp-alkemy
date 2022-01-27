@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         as : 'rol',
         foreignKey: "rolId"
       })
+      User.hasMany(models.Operation, {
+        as: 'userO',
+        foreignKey: 'userId'
+      })
     }
   };
   User.init({

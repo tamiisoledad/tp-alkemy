@@ -16,9 +16,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        get() {
+          return moment.utc(this.getDataValue('createdAt')).format('DD/MM/YYYY');
+      }
       },
       updatedAt: {
         allowNull: false,

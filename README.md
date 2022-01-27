@@ -5,5 +5,6 @@ Para iniciar la aplicación se deben realizar los siguientes pasos:
 2-Dentro de la carpeta server:
     -npm install sequelize-cli -g
     -npm install
+    -sequelize db:create
     -sequelize db:migrate
     -nodemon
