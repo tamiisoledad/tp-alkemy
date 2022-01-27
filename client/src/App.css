@@ -59,3 +59,23 @@ body{
     background-color: rgba(112, 98, 98, 0.473);
 
 }
+.home .navbar{
+margin-top: -55px;
+padding-top: 15px;
+margin-bottom: 40px;
+}
+.home h1{
+    margin-bottom: 50px;
+}
+
+table{
+    margin: 0 auto;
+    width: 80%!important;
+}
+td .fa-edit{
+    margin-right: 8px;
+    cursor: pointer;
+}
+td .fa-trash-alt{
+    cursor: pointer;
+}

@@ -1,31 +1,76 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import Content from './Content';
+
+
 
 const TableInfo = () => {
-    return (
-        <Table className="table" striped bordered hover variant="dark">
-            <tbody>
-                <tr>
-                    <td><i className="fas fa-plus"></i></td>
-                    <td>$5000</td>
-                    <td>Ingreso</td>
-                    <td className="icons"><i className="fas fa-edit"></i><i className="fas fa-trash-alt"></i></td>
-                </tr>
-                <tr>
-                    <td><i className="fas fa-minus"></i></td>
-                    <td>$3000</td>
-                    <td>Egreso</td>
-                    <td className="icons"><i className="fas fa-edit"></i><i className="fas fa-trash-alt"></i></td>
-                </tr>
-                <tr>
-                    <td><i className="fas fa-plus"></i></td>
-                    <td>$4000</td>
-                    <td>Ingreso</td>
-                    <td className="icons"><i className="fas fa-edit"></i><i className="fas fa-trash-alt"></i></td>
-                </tr>
-            </tbody>
-        </Table>
-    );
+  const [state, setState] = useState({
+    datos: []
+  })
+
+
+/*   async function apiCall() {
+    try {
+      let infouser = localStorage.getItem('datos')
+      let response = await fetch('http://localhost:3001/operations/datos/' + infouser);
+      let data = await response.json();
+      return data.data
+
+    } catch (error) {
+      console.log(error)
+    }
+  } */
+
+  async function userMyApi(){
+  try {
+    let infouser = localStorage.getItem('datos')
+    let response = await fetch('http://localhost:3001/operations/datos/' + infouser);
+    let data = await response.json();
+    console.log(data.data)
+    let info = data.data.map(dato => {
+
+      let item = {
+        id: dato.id,
+        quantity: dato.quantity,
+        category: dato.category,
+        categoryId: dato.categoryId,
+        createdAt: dato.createdAt.slice(0, 10)
+      }
+      return item
+    })
+    setState({
+      datos: [
+        ...state.datos,
+        ...info
+      ]
+    })
+  } catch (error) {
+    console.log(error)
+  }
 }
+
+useEffect(() => {
+  userMyApi()
+}, [])
+
+
+  
+  
+
+  return (
+    <>
+    
+    <Table className="table" striped bordered hover variant="dark">
+      <tbody>
+        {<Content
+          datos={state.datos}
+        />}
+      </tbody>
+    </Table>
+    </>
+  );
+}
+
 
 export default TableInfo;
